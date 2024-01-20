@@ -1,30 +1,32 @@
 import flet as ft
+import time
 
 
 def main(page: ft.Page):
-    container1 = ft.Container(
-        width=50, height=50, bgcolor="red", animate_position=1000, top=0)
-    container2 = ft.Container(
-        width=50, height=50, bgcolor="blue", animate_position=500, top=60)
-    container3 = ft.Container(
-        width=50, height=50, bgcolor="green", animate_position=1000, top=120)
+    image = ft.Image("https://picsum.photos/150/150", width=150, height=150,)
 
-    def animateContainers(self):
-        container1.top = 20
-        container1.left = 30
-        container2.top = 100
-        container2.left = 50
-        container3.top = 100
-        container3.left = 120
+    def animate_image(self):
+        print(time.time())
+        switcher.content = ft.Image(
+            src=f"https://picsum.photos/150/150?{time.time()}",
+            width=150,
+            height=150,
+        )
         page.update()
-    elevatedButton = ft.ElevatedButton("Animate!", on_click=animateContainers)
-    myStack = ft.Stack(
-        [container1, container2, container3,],
-        height=250,
+
+    switcher = ft.AnimatedSwitcher(
+        image,
+        transition=ft.AnimatedSwitcherTransition.SCALE,
+        duration=500,
+        reverse_duration=500,
+        switch_in_curve=ft.AnimationCurve.BOUNCE_OUT,
+        switch_out_curve=ft.AnimationCurve.BOUNCE_IN,
     )
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-    page.add(myStack, elevatedButton)
+    elevated_button = ft.ElevatedButton(
+        "Animate Image", on_click=animate_image)
+    page.add(switcher, elevated_button)
 
 
 ft.app(target=main)
