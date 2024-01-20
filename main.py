@@ -3,30 +3,27 @@ import time
 
 
 def main(page: ft.Page):
-    image = ft.Image("https://picsum.photos/150/150", width=150, height=150,)
+    container = ft.Container(
+        width=150,
+        height=150,
+        bgcolor="red",
+        border_radius=13,
+        animate=ft.animation.Animation(1000, ft.AnimationCurve.BOUNCE_OUT)
+    )
 
-    def animate_image(self):
-        print(time.time())
-        switcher.content = ft.Image(
-            src=f"https://picsum.photos/150/150?{time.time()}",
-            width=150,
-            height=150,
-        )
-        page.update()
-
-    switcher = ft.AnimatedSwitcher(
-        image,
-        transition=ft.AnimatedSwitcherTransition.SCALE,
-        duration=500,
-        reverse_duration=500,
-        switch_in_curve=ft.AnimationCurve.BOUNCE_OUT,
-        switch_out_curve=ft.AnimationCurve.BOUNCE_IN,
+    def animate_container(self):
+        container.width = 100 if container.width == 150 else 150
+        container.height = 50 if container.height == 150 else 150
+        container.bgcolor = "blue" if container.bgcolor == "red" else "red"
+        container.border_radius = 30 if container.border_radius == 13 else 13
+        container.update()
+    elevatedBuutton = ft.ElevatedButton(
+        "Animate Container!",
+        on_click=animate_container
     )
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-    elevated_button = ft.ElevatedButton(
-        "Animate Image", on_click=animate_image)
-    page.add(switcher, elevated_button)
+    page.add(container, elevatedBuutton)
 
 
 ft.app(target=main)
