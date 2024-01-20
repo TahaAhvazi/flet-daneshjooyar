@@ -2,23 +2,29 @@ import flet as ft
 
 
 def main(page: ft.Page):
-    myGridView = ft.GridView(expand=True, max_extent=120, aspect_ratio=0.5)
-    page.add(myGridView)
+    container1 = ft.Container(
+        width=50, height=50, bgcolor="red", animate_position=1000, top=0)
+    container2 = ft.Container(
+        width=50, height=50, bgcolor="blue", animate_position=500, top=60)
+    container3 = ft.Container(
+        width=50, height=50, bgcolor="green", animate_position=1000, top=120)
 
-    for i in range(5000):
-        myGridView.controls.append(
-            ft.Container(
-                ft.Text(f"Item{i+1}", color=ft.colors.BLACK),
-                width=100,
-                height=100,
-                alignment=ft.alignment.center,
-                bgcolor=ft.colors.AMBER_300,
-                border_radius=ft.border_radius.all(8)
-            )
-
-        )
-
-    page.update()
+    def animateContainers(self):
+        container1.top = 20
+        container1.left = 30
+        container2.top = 100
+        container2.left = 50
+        container3.top = 100
+        container3.left = 120
+        page.update()
+    elevatedButton = ft.ElevatedButton("Animate!", on_click=animateContainers)
+    myStack = ft.Stack(
+        [container1, container2, container3,],
+        height=250,
+    )
+    page.vertical_alignment = ft.MainAxisAlignment.CENTER
+    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+    page.add(myStack, elevatedButton)
 
 
 ft.app(target=main)
