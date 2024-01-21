@@ -5,7 +5,7 @@ from time import sleep
 def main(page: ft.Page):
     page.title = "ProgressBar example"
     page.theme_mode = ft.ThemeMode.LIGHT
-    page.padding = 30
+    page.padding = 30.0
     page.update()
 
     pb = ft.ProgressBar(width=500, color="red", bgcolor="green")
