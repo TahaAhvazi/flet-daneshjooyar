@@ -1,26 +1,27 @@
 import flet as ft
-from time import sleep
 
 
 def main(page: ft.Page):
-    page.title = "ProgressBar example"
-    page.theme_mode = ft.ThemeMode.LIGHT
-    page.padding = 30.0
-    page.update()
+    # PubSub
+    page.title = "My X Chat"
 
-    pb = ft.ProgressBar(width=500, color="red", bgcolor="green")
-    pr = ft.ProgressRing(width=20, height=20, stroke_width=2)
-    text = ft.Text("Doing something!")
-    page.vertical_alignment = ft.MainAxisAlignment.CENTER
-    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-    page.add(pb, text, pr)
-
-    for i in range(0, 101):
-        pb.value = i * 0.01
-        pr.value = i * 0.01
-        text.value = f"{i} %"
-        sleep(0.1)
+    def on_message(message):
+        messages.controls.append(ft.Text(message))
         page.update()
 
+    page.pubsub.subscribe(on_message)
 
-ft.app(target=main)
+    def send_message(event):
+        page.pubsub.send_all(f"{user.value}: {message.value}")
+        message.value = ""
+        page.update()
+
+    messages = ft.Column()
+    user = ft.TextField(hint_text="Your name")
+    message = ft.TextField(hint_text="Your message...", expand=True)
+    sendButton = ft.ElevatedButton("SEND", on_click=send_message)
+
+    page.add(messages, ft.Row([user, message, sendButton]))
+
+
+ft.app(target=main, view=ft.AppView.WEB_BROWSER)
